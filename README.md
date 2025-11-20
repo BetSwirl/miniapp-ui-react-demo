@@ -4,7 +4,7 @@ This Next.js demo shows how to bootstrap a Farcaster Mini App casino experience 
 
 ## 🎮 Live Demo
 
-The public demo is coming soon.
+[Farcaster Mini App](https://farcaster.xyz/miniapps/M926rOlymYrS/betswirl-mini-app-demo)
 
 ## 📚 Documentation
 

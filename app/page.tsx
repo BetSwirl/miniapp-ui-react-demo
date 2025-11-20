@@ -9,10 +9,10 @@ import { CASINO_GAME_TYPE, labelCasinoGameByType } from "@betswirl/sdk-core";
 
 export default function App() {
   const { setMiniAppReady, isMiniAppReady, context } = useMiniKit();
-  const [frameAdded, setFrameAdded] = useState(false);
+  const [miniAppAdded, setMiniAppAdded] = useState(false);
 
   const [game, setGame] = useState<CASINO_GAME_TYPE>(CASINO_GAME_TYPE.DICE);
-  const addFrame = useAddFrame();
+  const addMiniApp = useAddFrame();
 
   const gameProps = {
     theme: "dark" as const,
@@ -29,27 +29,27 @@ export default function App() {
     }
   }, [setMiniAppReady, isMiniAppReady]);
 
-  const handleAddFrame = useCallback(async () => {
-    const frameAdded = await addFrame();
-    setFrameAdded(Boolean(frameAdded));
-  }, [addFrame]);
+  const handleAddMiniApp = useCallback(async () => {
+    const miniAppAdded = await addMiniApp();
+    setMiniAppAdded(Boolean(miniAppAdded));
+  }, [addMiniApp]);
 
-  const saveFrameButton = useMemo(() => {
+  const saveMiniAppButton = useMemo(() => {
     if (context && !context.client.added) {
       return (
         <Button
           variant="ghost"
           size="sm"
-          onClick={handleAddFrame}
+          onClick={handleAddMiniApp}
           className="text-[var(--app-accent)] p-4"
           icon={<Icon name="plus" size="sm" />}
         >
-          Save Frame
+          Save Mini App
         </Button>
       );
     }
 
-    if (frameAdded) {
+    if (miniAppAdded) {
       return (
         <div className="flex items-center space-x-1 text-sm font-medium text-[#0052FF] animate-fade-out">
           <Icon name="check" size="sm" className="text-[#0052FF]" />
@@ -59,14 +59,14 @@ export default function App() {
     }
 
     return null;
-  }, [context, frameAdded, handleAddFrame]);
+  }, [context, miniAppAdded, handleAddMiniApp]);
 
   return (
     <div className="flex flex-col min-h-screen font-sans text-[var(--app-foreground)] mini-app-theme">
       <div className="w-full max-w-md mx-auto py-3">
         <div className="px-4">
           <header className="flex justify-between items-center mb-3 h-11">
-            <div>{saveFrameButton}</div>
+            <div>{saveMiniAppButton}</div>
           </header>
         </div>
 
