@@ -1,22 +1,17 @@
-# BetSwirl Farcaster Mini App Demo
-This project is the result of following the integration guide: [Farcaster Mini App Integration Guide](https://docs.betswirl.com/developer-hub/demos/ui-react/miniapp)
+# BetSwirl UI React Demo
 
-Mini App Demo: 
+This Next.js demo shows how to bootstrap a Farcaster Mini App casino experience with **@betswirl/ui-react**, MiniKit, and OnchainKit so you can launch a fully themed dApp in minutes.
 
----
+## 🎮 Live Demo
 
-# MiniKit Template
+The public demo is coming soon.
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-onchain --mini`](), configured with:
+## 📚 Documentation
 
-- [MiniKit](https://docs.base.org/builderkits/minikit/overview)
-- [OnchainKit](https://www.base.org/builders/onchainkit)
-- [BetSwirl UI React](https://www.npmjs.com/package/@betswirl/ui-react)
-- [Next.js](https://nextjs.org/docs)
+Read the full guide: [https://docs.betswirl.com/developer-hub/demos/ui-react/miniapp](https://docs.betswirl.com/developer-hub/demos/ui-react/miniapp)
 
-## Getting Started
+## 🚀 Installation
 
-1. Install dependencies:
 ```bash
 npm install
 # or
@@ -27,23 +22,28 @@ pnpm install
 bun install
 ```
 
-2. Verify environment variables, these will be set up by the `npx create-onchain --mini` command:
-
-You can regenerate the FARCASTER Account Association environment variables by running `npx create-onchain --manifest` in your project directory.
-
-The environment variables enable the following features:
-
-- Frame metadata - Sets up the Frame Embed that will be shown when you cast your frame
-- Account association - Allows users to add your frame to their account
+## ▶️ Run the app
 
 ```bash
-# Shared/OnchainKit variables
+npm run dev
+```
+
+The UI will be available at `http://localhost:3000`.
+
+## ⚙️ Environment variables
+
+Create a `.env.local` file at the project root and fill the variables below. They are generated when running `npx create-onchain --mini`, and you can regenerate the Farcaster account association via `npx create-onchain --manifest`.
+
+### OnchainKit / MiniKit configuration
+
+```bash
 NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=
 NEXT_PUBLIC_URL=
-NEXT_PUBLIC_ICON_URL=
-NEXT_PUBLIC_ONCHAINKIT_API_KEY=
+```
 
-# Frame metadata
+### Farcaster & Mini App metadata
+
+```bash
 FARCASTER_HEADER=
 FARCASTER_PAYLOAD=
 FARCASTER_SIGNATURE=
@@ -58,68 +58,44 @@ NEXT_PUBLIC_APP_TAGLINE=
 NEXT_PUBLIC_APP_OG_TITLE=
 NEXT_PUBLIC_APP_OG_DESCRIPTION=
 NEXT_PUBLIC_APP_OG_IMAGE=
-
-# Optional: BetSwirl affiliate address to earn 30% commission from bets
-NEXT_PUBLIC_AFFILIATE_ADDRESS=
-
-# Optional: Custom RPC endpoints for better performance
-NEXT_PUBLIC_BASE_RPC_URL=
-NEXT_PUBLIC_POLYGON_RPC_URL=
-NEXT_PUBLIC_ARBITRUM_RPC_URL=
-NEXT_PUBLIC_AVALANCHE_RPC_URL=
 ```
 
-3. Start the development server:
+### Affiliate address (optional)
+
 ```bash
-npm run dev
+NEXT_PUBLIC_AFFILIATE_ADDRESS=
 ```
 
-## Template Features
+### Custom RPCs (optional)
 
-### Frame Configuration
-- `.well-known/farcaster.json` endpoint configured for Frame metadata and account association
-- Frame metadata automatically added to page headers in `layout.tsx`
+```bash
+NEXT_PUBLIC_BASE_RPC_URL=
+NEXT_PUBLIC_ARBITRUM_RPC_URL=
+NEXT_PUBLIC_BSC_RPC_URL=
+```
 
-### BetSwirl Integration
-- Multiple casino games (Dice, Coin Toss, Roulette) with navigation
-- Multi-chain support (Base, Polygon, Arbitrum, Avalanche)
-- Leaderboard support with "Play Now" functionality
-- Freebet system for user promotions
-- Token selection and balance management
+## 📦 Packages used
 
-### Theming
-- Custom theme via `gameProps` in `page.tsx`
-- Background images for page and game components
-- Dark theme with golden accents
+- **@betswirl/ui-react** React UI library to quickly integrate BetSwirl games into your application
+- **@coinbase/onchainkit** Wallet connection + Farcaster integration
+- **next** React framework
 
-### MiniKit Provider
-The app is wrapped with `MiniKitProvider` in `rootProvider.tsx`, configured with:
-- OnchainKit integration
-- Access to Frames context
-- Sets up Wagmi Connectors
-- Sets up Frame SDK listeners
-- Applies Safe Area Insets
+## ✨ Key features
 
-## Customization
+- `.well-known/farcaster.json` ready for metadata and account association
+- Mini App metadata automatically injected from `layout.tsx`
+- Fully customizable theme via `gameProps` with dedicated backgrounds
+- Token picker, balance management, freebets, and multichain support (Base, Arbitrum, BSC)
+- `MiniKitProvider` (`rootProvider.tsx`) wires up wagmi connectors, Mini App context, and safe-area insets
 
-To get started building your own frame, follow these steps:
+## 🔧 Quick customization
 
-1. Remove the DemoComponents:
-   - Delete `components/DemoComponents.tsx`
-   - Remove demo-related imports from `page.tsx`
+1. Build your own Mini APp: edit `page.tsx`, tweak `gameProps`, and adjust the MiniKit config.
+2. Publish your Mini App: cast it, associate it to your account, and share it with your community.
 
-2. Start building your Frame:
-   - Modify `page.tsx` to create your Frame UI
-   - Update theme variables in `gameProps`
-   - Adjust MiniKit configuration in `rootProvider.tsx`
+## 🔗 Useful links
 
-3. Add your frame to your account:
-   - Cast your frame to see it in action
-   - Share your frame with others to start building your community
-
-## Learn More
-
+- [BetSwirl Docs](https://docs.betswirl.com)
 - [MiniKit Documentation](https://docs.base.org/builderkits/minikit/overview)
 - [OnchainKit Documentation](https://docs.base.org/builderkits/onchainkit/getting-started)
 - [Next.js Documentation](https://nextjs.org/docs)
-- [BetSwirl Documentation](https://docs.betswirl.com)

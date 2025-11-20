@@ -1,3 +1,5 @@
+import type { MiniAppManifest } from "@coinbase/onchainkit/minikit";
+
 const ROOT_URL =
   process.env.NEXT_PUBLIC_URL ||
   (process.env.VERCEL_URL && `https://${process.env.VERCEL_URL}`) ||
@@ -14,9 +16,6 @@ export const minikitConfig = {
     payload: process.env.FARCASTER_PAYLOAD || "",
     signature: process.env.FARCASTER_SIGNATURE || "",
   },
-  baseBuilder: {
-    allowedAddresses: [],
-  },
   miniapp: {
     version: "1",
     name: process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME || "your-mini-project",
@@ -28,12 +27,12 @@ export const minikitConfig = {
     splashBackgroundColor: process.env.NEXT_PUBLIC_SPLASH_BACKGROUND_COLOR || "#000000",
     homeUrl: ROOT_URL,
     webhookUrl: `${ROOT_URL}/api/webhook`,
-    primaryCategory: (process.env.NEXT_PUBLIC_APP_PRIMARY_CATEGORY as any) || "utility",
-    tags: ["example"],
+    primaryCategory: process.env.NEXT_PUBLIC_APP_PRIMARY_CATEGORY as MiniAppManifest["miniapp"]["primaryCategory"] || "utility",
+    tags: ["casino", "demo"],
     heroImageUrl: process.env.NEXT_PUBLIC_APP_HERO_IMAGE || `${ROOT_URL}/hero.png`,
     tagline: process.env.NEXT_PUBLIC_APP_TAGLINE || "",
     ogTitle: process.env.NEXT_PUBLIC_APP_OG_TITLE || "",
     ogDescription: process.env.NEXT_PUBLIC_APP_OG_DESCRIPTION || "",
     ogImageUrl: process.env.NEXT_PUBLIC_APP_OG_IMAGE || `${ROOT_URL}/hero.png`,
   },
-} as const;
+} as const satisfies MiniAppManifest;
