@@ -1,23 +1,33 @@
 "use client";
 
-import { useAddFrame, useMiniKit, useOpenUrl } from "@coinbase/onchainkit/minikit";
+import { useAddFrame, useMiniKit } from "@coinbase/onchainkit/minikit";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button, Icon } from "./components/DemoComponents";
-import { DiceGame } from "@betswirl/ui-react";
+import { DiceGame, CoinTossGame, RouletteGame } from "@betswirl/ui-react";
 import "@betswirl/ui-react/styles.css";
+import { CASINO_GAME_TYPE, labelCasinoGameByType } from "@betswirl/sdk-core";
 
 export default function App() {
-  const { setFrameReady, isFrameReady, context } = useMiniKit();
+  const { setMiniAppReady, isMiniAppReady, context } = useMiniKit();
   const [frameAdded, setFrameAdded] = useState(false);
 
+  const [game, setGame] = useState<CASINO_GAME_TYPE>(CASINO_GAME_TYPE.DICE);
   const addFrame = useAddFrame();
-  const openUrl = useOpenUrl();
+
+  const gameProps = {
+    theme: "dark" as const,
+    customTheme: {
+      "--primary": "rgb(225 159 31)",
+      "--play-btn-font": "rgb(74 41 24)",
+    } as React.CSSProperties,
+    backgroundImage: "/game-bg.png",
+  };
 
   useEffect(() => {
-    if (!isFrameReady) {
-      setFrameReady();
+    if (!isMiniAppReady) {
+      setMiniAppReady();
     }
-  }, [setFrameReady, isFrameReady]);
+  }, [setMiniAppReady, isMiniAppReady]);
 
   const handleAddFrame = useCallback(async () => {
     const frameAdded = await addFrame();
@@ -53,25 +63,61 @@ export default function App() {
 
   return (
     <div className="flex flex-col min-h-screen font-sans text-[var(--app-foreground)] mini-app-theme">
-      <div className="w-full max-w-md mx-auto px-4 py-3">
-        <header className="flex justify-between items-center mb-3 h-11">
-          <div>{saveFrameButton}</div>
-        </header>
+      <div className="w-full max-w-md mx-auto py-3">
+        <div className="px-4">
+          <header className="flex justify-between items-center mb-3 h-11">
+            <div>{saveFrameButton}</div>
+          </header>
+        </div>
 
-        <main className="flex justify-center">
-          <DiceGame />
-        </main>
+        {/* Navigation buttons */}
+        <nav
+          style={{
+            display: "flex",
+            gap: "8px",
+            justifyContent: "center",
+            padding: "12px 0",
+            marginBottom: "12px",
+          }}
+        >
+          {(
+            [
+              CASINO_GAME_TYPE.DICE,
+              CASINO_GAME_TYPE.COINTOSS,
+              CASINO_GAME_TYPE.ROULETTE,
+            ] as const
+          ).map((g) => (
+            <button
+              key={g}
+              onClick={() => setGame(g)}
+              style={{
+                padding: "8px 16px",
+                background:
+                  game === g ? "rgb(225 159 31)" : "rgba(255, 255, 255, 0.05)",
+                color:
+                  game === g ? "rgb(74 41 24)" : "rgba(255, 255, 255, 0.6)",
+                border:
+                  game === g ? "none" : "1px solid rgba(255, 255, 255, 0.1)",
+                borderRadius: "6px",
+                fontSize: "14px",
+                fontWeight: "500",
+                transition: "all 0.2s",
+                outline: "none",
+              }}
+            >
+              {labelCasinoGameByType[g]}
+            </button>
+          ))}
+        </nav>
 
-        <footer className="mt-2 pt-4 flex justify-center">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-[var(--ock-text-foreground-muted)] text-xs"
-            onClick={() => openUrl("https://base.org/builders/minikit")}
-          >
-            Built on Base with MiniKit
-          </Button>
-        </footer>
+        <div className="px-4">
+          <main className="flex justify-center">
+            {/* Games */}
+            {game === CASINO_GAME_TYPE.DICE && <DiceGame  {...gameProps}/>}
+            {game === CASINO_GAME_TYPE.COINTOSS && <CoinTossGame {...gameProps} />}
+            {game === CASINO_GAME_TYPE.ROULETTE && <RouletteGame {...gameProps} />}
+          </main>
+        </div>
       </div>
     </div>
   );
